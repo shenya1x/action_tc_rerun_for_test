@@ -518,6 +518,7 @@ def main():
     parser.add_argument('-b', '--build_type_id', help='Build Type ID', default="")
     parser.add_argument('-op', '--other_param', help='Other Params in format "key=value;key=value"', default="")
     parser.add_argument('-r', '--rerun', help='Specify if it is a rerun', action='store_true')
+    parser.add_argument('-va', '--validation', help='for test', action='store_true')
 
     args = parser.parse_args()
     build_props = {}
@@ -533,20 +534,22 @@ def main():
         val = kv.split("=")[1]
         build_props[key] = val
 
-    if args.build_type_id != 'SsgCiCtrl_ReviewBuildsTestAkshayRerun':
-        print('{} skipped'.format(args.build_type_id))
-        return
+    if args.validation:
+        if args.build_type_id != 'SsgCiCtrl_ReviewBuildsTestAkshayRerun':
+            print('{} skipped'.format(args.build_type_id))
+            args.build_type_id = "SsgCiCtrl_ReviewBuildsTestAkshayRerun"
+            return
 
-    args.build_type_id = "SsgCiCtrl_ReviewBuildsTestAkshayRerun"
-    trigger_build_with_same_revision(orig_build=args.orig_build,
-                                     verbose=args.verbose,
-                                     user=args.user,
-                                     password=args.password,
-                                     teamcity_url=args.teamcity_host,
-                                     tcSessionId=None,
-                                     comment=None,
-                                     build_props=build_props,
-                                     build_type_id=args.build_type_id)
+    print('1111111111111111')
+    # trigger_build_with_same_revision(orig_build=args.orig_build,
+    #                                  verbose=args.verbose,
+    #                                  user=args.user,
+    #                                  password=args.password,
+    #                                  teamcity_url=args.teamcity_host,
+    #                                  tcSessionId=None,
+    #                                  comment=None,
+    #                                  build_props=build_props,
+    #                                  build_type_id=args.build_type_id)
 
 
 if __name__ == "__main__":
